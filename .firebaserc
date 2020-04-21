@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "photoapp-bfb44": {
+      "hosting": {
+        "app": [
+          "photoapp-bfb44"
+        ]
+      }
+    }
+  }
+}

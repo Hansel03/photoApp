@@ -9,10 +9,10 @@
 <ion-content [fullscreen]="true">
 
 
-    <ion-card>
-        <ion-img src="https://ionicframework.com/docs/demos/api/card/madison.jpg"></ion-img>
+    <ion-card *ngFor="let item of items | async">
+        <ion-img [src]="item.img"></ion-img>
         <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
+            <ion-card-title>{{item.titulo}}</ion-card-title>
         </ion-card-header>
 
         <ion-card-content>
@@ -31,7 +31,6 @@
         </ion-grid>
 
     </ion-card>
-
 
     <!-- fab placed to the top end -->
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">

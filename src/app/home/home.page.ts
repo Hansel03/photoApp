@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { SubirPage } from '../subir/subir.page';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +10,13 @@ import { SubirPage } from '../subir/subir.page';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  constructor(private modalController: ModalController) {}
+  items: Observable<any>;
+  constructor(
+    private modalController: ModalController,
+    firestore: AngularFirestore
+  ) {
+    this.items = firestore.collection('post').valueChanges();
+  }
 
   public async mostrarModal() {
     const modal = await this.modalController.create({
