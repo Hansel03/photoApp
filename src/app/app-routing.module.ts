@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'subir',
+    loadChildren: () => import('./subir/subir.module').then( m => m.SubirPageModule)
+  },
 ];
 
 @NgModule({
