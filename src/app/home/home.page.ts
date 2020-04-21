@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { SubirPage } from '../subir/subir.page';
 
 @Component({
   selector: 'app-home',
@@ -6,7 +8,12 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  constructor(private modalController: ModalController) {}
 
-  constructor() {}
-
+  public async mostrarModal() {
+    const modal = await this.modalController.create({
+      component: SubirPage,
+    });
+    return await modal.present();
+  }
 }
