@@ -5,7 +5,6 @@
             Cerrar
         </ion-button>
     </ion-toolbar>
-
 </ion-header>
 
 <ion-content>
@@ -14,8 +13,8 @@
         <ion-input [formControl]="titulo"></ion-input>
     </ion-item>
 
-    <ion-item>
-        <ion-img src="https://ionicframework.com/docs/demos/api/card/madison.jpg"></ion-img>
+    <ion-item *ngIf="imagenPreview">
+        <ion-img [src]="imagenPreview"></ion-img>
     </ion-item>
 
     <ion-grid>
@@ -27,12 +26,11 @@
                 </ion-button>
             </ion-col>
             <ion-col>
-                <ion-button color="primary" expand="block">
+                <ion-button color="primary" expand="block" (click)="mostrarCamara()">
                     Camara
                     <ion-icon name="camera"></ion-icon>
                 </ion-button>
             </ion-col>
         </ion-row>
     </ion-grid>
-
 </ion-content>

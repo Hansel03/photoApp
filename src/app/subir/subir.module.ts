@@ -8,6 +8,7 @@ import { SubirPageRoutingModule } from './subir-routing.module';
 
 import { SubirPage } from './subir.page';
 import { PlaceHolderPipe } from '../place-holder.pipe';
+import { Camera } from '@ionic-native/camera/ngx';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { PlaceHolderPipe } from '../place-holder.pipe';
     SubirPageRoutingModule,
     ReactiveFormsModule,
   ],
+  providers: [Camera],
   declarations: [SubirPage, PlaceHolderPipe],
 })
 export class SubirPageModule {}
