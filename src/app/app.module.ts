@@ -15,6 +15,10 @@ import { environment } from '../environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 
+//plugins
+import { Camera } from '@ionic-native/camera/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -30,6 +34,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AngularFirestore,
+    Camera,
+    ImagePicker,
   ],
   bootstrap: [AppComponent],
 })
