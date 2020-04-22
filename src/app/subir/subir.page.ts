@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormControl } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import {
+  ImagePicker,
+  ImagePickerOptions,
+} from '@ionic-native/image-picker/ngx';
 
 @Component({
   selector: 'app-subir',
@@ -20,7 +24,8 @@ export class SubirPage implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private camera: Camera
+    private camera: Camera,
+    private imagePicker: ImagePicker
   ) {}
 
   ngOnInit() {}
@@ -41,6 +46,27 @@ export class SubirPage implements OnInit {
       (err) => {
         // Handle error
         console.error('Error en camara', JSON.stringify(err));
+      }
+    );
+  }
+
+  public seleccionarFoto() {
+    const opciones: ImagePickerOptions = {
+      quality: 100,
+      outputType: 1,
+      maximumImagesCount: 1,
+    };
+
+    this.imagePicker.getPictures(opciones).then(
+      (results) => {
+        // tslint:disable-next-line: prefer-for-of
+        for (let i = 0; i < results.length; i++) {
+          console.log('Image URI: ' + results[i]);
+          this.imagenPreview = 'data:image/jpeg;base64,' + results[i];
+        }
+      },
+      (err) => {
+        console.error('ERROR en selector', JSON.stringify(err));
       }
     );
   }
