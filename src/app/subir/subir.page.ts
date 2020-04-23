@@ -6,6 +6,7 @@ import {
   ImagePicker,
   ImagePickerOptions,
 } from '@ionic-native/image-picker/ngx';
+import { CargaArchivoService } from '../services/carga-archivo.service';
 
 @Component({
   selector: 'app-subir',
@@ -21,11 +22,13 @@ export class SubirPage implements OnInit {
     mediaType: this.camera.MediaType.PICTURE,
   };
   imagenPreview: string;
+  imagen64: string;
 
   constructor(
     private modalController: ModalController,
     private camera: Camera,
-    private imagePicker: ImagePicker
+    private imagePicker: ImagePicker,
+    private cargaArchivoService: CargaArchivoService
   ) {}
 
   ngOnInit() {}
@@ -42,6 +45,7 @@ export class SubirPage implements OnInit {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64 (DATA_URL):
         this.imagenPreview = 'data:image/jpeg;base64,' + imageData;
+        this.imagen64 = imageData;
       },
       (err) => {
         // Handle error
@@ -63,11 +67,21 @@ export class SubirPage implements OnInit {
         for (let i = 0; i < results.length; i++) {
           console.log('Image URI: ' + results[i]);
           this.imagenPreview = 'data:image/jpeg;base64,' + results[i];
+          this.imagen64 = results[i];
         }
       },
       (err) => {
         console.error('ERROR en selector', JSON.stringify(err));
       }
     );
+  }
+
+  public crearPost() {
+    const archivo = {
+      img: this.imagen64,
+      titulo: this.titulo,
+    };
+
+    this.cargaArchivoService.cargarImagenFirebase(archivo);
   }
 }

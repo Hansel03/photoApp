@@ -1,8 +1,11 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>{{titulo.value | placeHolder}}</ion-title>
-        <ion-button slot="end" (click)="cerrarModal()" color="primary">
+        <ion-button slot="start" (click)="cerrarModal()" color="primary">
             Cerrar
+        </ion-button>
+        <ion-title>{{titulo.value | placeHolder}}</ion-title>
+        <ion-button slot="end" (click)="crearPost()" color="primary">
+            Crear post
         </ion-button>
     </ion-toolbar>
 </ion-header>
