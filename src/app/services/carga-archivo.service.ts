@@ -5,7 +5,7 @@ import { ToastController } from '@ionic/angular';
 import { FormControl } from '@angular/forms';
 
 interface ArchivoSubir {
-  titulo: FormControl;
+  titulo: string;
   img: string;
   key?: string;
 }
@@ -14,6 +14,7 @@ interface ArchivoSubir {
   providedIn: 'root',
 })
 export class CargaArchivoService {
+  imagenes: ArchivoSubir[] = [];
   constructor(
     private angularFirestore: AngularFirestore,
     private toastController: ToastController
@@ -43,12 +44,28 @@ export class CargaArchivoService {
           //todo bien
           console.log('Archivo subido');
           this.mostrarToast('Imagen cargada correctamente');
+
+          const url = uploadTask.snapshot.downloadURL;
+          this.crearPost(archivo.titulo, url);
           resolve();
         }
       );
     });
 
     return promesa;
+  }
+
+  private crearPost(title: string, url: string) {
+    const post: ArchivoSubir = {
+      img: url,
+      titulo: title,
+    };
+
+    console.log(JSON.stringify(post));
+
+    //insertar objeto en angularFirestore
+    this.angularFirestore.collection('post').add(post);
+    this.imagenes.push(post);
   }
 
   public async mostrarToast(mensaje: string) {

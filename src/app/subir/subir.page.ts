@@ -79,7 +79,7 @@ export class SubirPage implements OnInit {
   public crearPost() {
     const archivo = {
       img: this.imagen64,
-      titulo: this.titulo,
+      titulo: this.titulo.value,
     };
 
     this.cargaArchivoService.cargarImagenFirebase(archivo);
