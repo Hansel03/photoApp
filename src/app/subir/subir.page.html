@@ -4,7 +4,7 @@
             Cerrar
         </ion-button>
         <ion-title>{{titulo.value | placeHolder}}</ion-title>
-        <ion-button slot="end" (click)="crearPost()" color="primary">
+        <ion-button [disabled]="titulo.value.length<=1 || imagenPreview.length<=1" slot="end" (click)="crearPost()" color="primary">
             Crear post
         </ion-button>
     </ion-toolbar>

@@ -14,14 +14,14 @@ import { CargaArchivoService } from '../services/carga-archivo.service';
   styleUrls: ['./subir.page.scss'],
 })
 export class SubirPage implements OnInit {
-  titulo = new FormControl();
+  titulo = new FormControl('');
   options: CameraOptions = {
     quality: 100,
     destinationType: this.camera.DestinationType.FILE_URI,
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE,
   };
-  imagenPreview: string;
+  imagenPreview = '';
   imagen64: string;
 
   constructor(
@@ -82,6 +82,8 @@ export class SubirPage implements OnInit {
       titulo: this.titulo.value,
     };
 
-    this.cargaArchivoService.cargarImagenFirebase(archivo);
+    this.cargaArchivoService.cargarImagenFirebase(archivo).then(() => {
+      this.cerrarModal();
+    });
   }
 }

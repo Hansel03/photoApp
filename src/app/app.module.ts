@@ -14,6 +14,7 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
 
 //plugins
 import { Camera } from '@ionic-native/camera/ngx';
@@ -28,6 +29,7 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
+    AngularFireStorageModule,
   ],
   providers: [
     StatusBar,
@@ -36,6 +38,7 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
     AngularFirestore,
     Camera,
     ImagePicker,
+    { provide: BUCKET, useValue: 'my-bucket-name' },
   ],
   bootstrap: [AppComponent],
 })

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
 import { ToastController } from '@ionic/angular';
-import { FormControl } from '@angular/forms';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 interface ArchivoSubir {
   titulo: string;
@@ -17,7 +17,8 @@ export class CargaArchivoService {
   imagenes: ArchivoSubir[] = [];
   constructor(
     private angularFirestore: AngularFirestore,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private storage: AngularFireStorage
   ) {}
 
   cargarImagenFirebase(archivo: ArchivoSubir) {
@@ -45,8 +46,11 @@ export class CargaArchivoService {
           console.log('Archivo subido');
           this.mostrarToast('Imagen cargada correctamente');
 
-          const url = uploadTask.snapshot.downloadURL;
-          this.crearPost(archivo.titulo, url);
+          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            const url = downloadURL;
+            this.crearPost(archivo.titulo, url);
+          });
+
           resolve();
         }
       );
