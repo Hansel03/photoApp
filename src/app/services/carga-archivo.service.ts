@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
 import { ToastController } from '@ionic/angular';
-import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/internal/operators';
 
 interface ArchivoSubir {
   titulo: string;
@@ -14,12 +15,27 @@ interface ArchivoSubir {
   providedIn: 'root',
 })
 export class CargaArchivoService {
-  imagenes: ArchivoSubir[] = [];
+  public imagenes: ArchivoSubir[] = [];
+  lastKey: string = null;
   constructor(
     private angularFirestore: AngularFirestore,
-    private toastController: ToastController,
-    private storage: AngularFireStorage
-  ) {}
+    private toastController: ToastController
+  ) {
+    this.cargarUltimoKey().subscribe();
+  }
+
+  cargarUltimoKey() {
+    return this.angularFirestore
+      .collection('post', (ref) => ref.orderBy('titulo').limitToLast(1))
+      .valueChanges()
+      .pipe(
+        map((post: any) => {
+          console.log(post);
+          this.lastKey = post[0].key;
+          this.imagenes.push(post[0]);
+        })
+      );
+  }
 
   cargarImagenFirebase(archivo: ArchivoSubir) {
     let promesa = new Promise((resolve, reject) => {

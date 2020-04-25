@@ -9,7 +9,8 @@
 <ion-content [fullscreen]="true">
 
 
-    <ion-card *ngFor="let item of items | async">
+    <!-- <ion-card *ngFor="let item of items | async"> -->
+    <ion-card *ngFor="let item of cargaArchivoService.imagenes ">
         <ion-img [src]="item.img"></ion-img>
         <ion-card-header>
             <ion-card-title>{{item.titulo}}</ion-card-title>
