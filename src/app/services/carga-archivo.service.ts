@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
 import { ToastController } from '@ionic/angular';
-import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators';
 
 interface ArchivoSubir {
@@ -21,20 +20,53 @@ export class CargaArchivoService {
     private angularFirestore: AngularFirestore,
     private toastController: ToastController
   ) {
-    this.cargarUltimoKey().subscribe();
+    this.cargarUltimoKey().subscribe(() => {
+      this.cargarImagenes();
+    });
   }
 
-  cargarUltimoKey() {
+  private cargarUltimoKey() {
     return this.angularFirestore
-      .collection('post', (ref) => ref.orderBy('titulo').limitToLast(1))
-      .valueChanges()
+      .collection('post', (ref) => ref.orderBy('img').limitToLast(1))
+      .valueChanges({ idField: 'key' })
       .pipe(
         map((post: any) => {
           console.log(post);
-          this.lastKey = post[0].key;
+          this.lastKey = post[0].img;
           this.imagenes.push(post[0]);
         })
       );
+  }
+
+  /**
+   *Funcion encargada de cargar imagenes por grtupos
+   *
+   * @memberof CargaArchivoService
+   */
+  cargarImagenes() {
+    return new Promise((resolve, reject) => {
+      this.angularFirestore
+        .collection('post', (ref) =>
+          ref.limitToLast(3).orderBy('img').endAt(this.lastKey)
+        )
+        .valueChanges()
+        .subscribe((posts: any) => {
+          posts.pop(); //eliminamos el ultimo elemento del array
+          if (posts.length === 0) {
+            console.log('Ya no hay mas registros');
+            resolve(false);
+            return;
+          }
+          //si llega aqui quiere deir que aun hay registros
+          this.lastKey = posts[0].img;
+
+          for (let i = posts.length - 1; i >= 0; i--) {
+            const post = posts[i];
+            this.imagenes.push(post);
+          }
+          resolve(true);
+        });
+    });
   }
 
   cargarImagenFirebase(archivo: ArchivoSubir) {
