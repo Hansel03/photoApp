@@ -25,10 +25,17 @@ export class CargaArchivoService {
     });
   }
 
+  /**
+   * se usa el   .valueChanges({ idField: 'key' }) para obtener el ID
+   *
+   * @private
+   * @returns
+   * @memberof CargaArchivoService
+   */
   private cargarUltimoKey() {
     return this.angularFirestore
       .collection('post', (ref) => ref.orderBy('img').limitToLast(1))
-      .valueChanges({ idField: 'key' })
+      .valueChanges()
       .pipe(
         map((post: any) => {
           console.log(post);

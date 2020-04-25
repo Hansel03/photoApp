@@ -33,6 +33,12 @@
 
     </ion-card>
 
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
     <!-- fab placed to the top end -->
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button>
