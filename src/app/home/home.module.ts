@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { SubirPageModule } from '../subir/subir.module';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @NgModule({
   imports: [
@@ -16,5 +17,6 @@ import { SubirPageModule } from '../subir/subir.module';
     SubirPageModule,
   ],
   declarations: [HomePage],
+  providers: [SocialSharing],
 })
 export class HomePageModule {}
